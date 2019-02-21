@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.TestSong"
-    android:layout_margin="5dp">
+    android:layout_margin="@dimen/activity_margin">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:text="Default text"
             android:textAlignment="center"
-            android:textSize="20sp"
+            android:textSize="@dimen/text_size"
             />
         <TextView
             android:id="@+id/text_view_song"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:text="Text"
             android:textAlignment="center"
-            android:textSize="20sp"
+            android:textSize="@dimen/text_size"
             />
 
         <LinearLayout
@@ -47,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:onClick="increaseZoom"/>
             <Button
+                android:visibility="gone"
                 android:id="@+id/button_zoom_minus"
                 android:text="Zoom-"
                 android:layout_weight="1"
