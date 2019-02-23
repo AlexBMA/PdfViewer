@@ -5,7 +5,7 @@ public class Song {
     private int id;
     private String nameSong;
     private String textSong;
-    private String cateSong;
+    private String categorySong;
 
 
     public Song() {
@@ -14,7 +14,7 @@ public class Song {
     public Song(String nameSong, String textSong, String cateSong) {
         this.nameSong = nameSong;
         this.textSong = textSong;
-        this.cateSong = cateSong;
+        this.categorySong = cateSong;
     }
 
     public int getId() {
@@ -41,11 +41,21 @@ public class Song {
         this.textSong = textSong;
     }
 
-    public String getCateSong() {
-        return cateSong;
+    public String getCategorySong() {
+        return categorySong;
     }
 
-    public void setCateSong(String cateSong) {
-        this.cateSong = cateSong;
+    public void setCategorySong(String categorySong) {
+        this.categorySong = categorySong;
+    }
+
+    @Override
+    public String toString() {
+        return "Song{" +
+                "id=" + id +
+                ", nameSong='" + nameSong + '\'' +
+                ", textSong='" + textSong + '\'' +
+                ", categorySong='" + categorySong + '\'' +
+                '}';
     }
 }

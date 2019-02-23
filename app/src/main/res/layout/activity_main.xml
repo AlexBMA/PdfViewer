@@ -10,38 +10,40 @@
     tools:context=".MainActivity">
 
 
-
+    <!--
     <ImageButton
         android:id="@+id/button_test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1"
         android:onClick="next"
         android:src="@drawable/printable_musical_notes_musical_notes_art"
-        android:layout_weight="1"
-        android:layout_marginBottom="5dp"
         />
+    -->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_weight="1"
-        >
+        android:orientation="vertical">
 
         <Button
+            android:id="@+id/button_song_tineri"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cantari tineri"
+            android:onClick="toSongTienri"
+            android:text="@string/cantari_tineri"
             android:textSize="20sp"
 
             />
 
         <Button
-            android:visibility="gone"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cantari carte Rosie"
-            android:textSize="20sp" />
+            android:text="Test"
+            android:textSize="@dimen/text_size"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

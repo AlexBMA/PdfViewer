@@ -18,7 +18,7 @@
             android:id="@+id/text_view_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Default text"
+            tools:text="Songs name"
             android:textAlignment="center"
             android:textSize="@dimen/text_size"
             />
@@ -28,8 +28,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Text"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:textAlignment="center"
-            android:textSize="@dimen/text_size"
+
             />
 
         <LinearLayout
@@ -52,8 +53,8 @@
                 android:text="Zoom-"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="reduceZoom"/>
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
 
 
