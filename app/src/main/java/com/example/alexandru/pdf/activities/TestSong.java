@@ -29,27 +29,30 @@ public class TestSong extends AppCompatActivity {
 
         songTitle.setText("Măreţul har");
 
-        String songTextString = "1. Măreţul har m-a mântuit\n" +
-                "Pe mine din păcat.\n" +
-                "Pierdut eram, dar m-a găsit,\n" +
-                "De moarte m-a scăpat. \n";
+        StringBuilder songTextStringBuilder = new StringBuilder();
+        songTextStringBuilder.append("\"1. Măreţul har m-a mântuit \n \"").
+                              append("Pe mine din păcat.\n").
+                              append("Pierdut eram, dar m-a găsit,\n").
+                              append( "De moarte m-a scăpat. \n \n").
+                              append("2. Măreţul har m-a învăţat\n\"").
+                              append( "S-o rup cu orice rău.\n").
+                              append("Ce scump mi-e azi tot harul dat;\n").
+                              append("Trăiesc prin har mereu.\n \n").
+                              append("3. Dureri, batjocuri, prigoniri,\n").
+                              append("S-o rup cu orice rău.\n").
+                              append("Ce scump mi-e azi tot harul dat;\n").
+                              append("Trăiesc prin har mereu.\n \n").
+                              append("3. Dureri, batjocuri, prigoniri,\n").
+                              append("Adesea-m întâlnit;\n").
+                              append("Prin harul marii Lui Iubiri\n").
+                              append("Eu toate-am biruit. \n \n").
+                              append("4. Prin har ajunge-voi în cer\n").
+                              append("Cu slavă îmbrăcat,\n").
+                              append("Şi voi slăvi în veşnicii\n").
+                              append("Pe Cel ce har mi-a dat. \n");
 
-        songTextString +="2. Măreţul har m-a învăţat\n" +
-                "S-o rup cu orice rău.\n" +
-                "Ce scump mi-e azi tot harul dat;\n" +
-                "Trăiesc prin har mereu.\n \n";
 
-        songTextString +="3. Dureri, batjocuri, prigoniri,\n" +
-                "Adesea-m întâlnit;\n" +
-                "Prin harul marii Lui Iubiri\n" +
-                "Eu toate-am biruit. \n \n";
-
-        songTextString +="4. Prin har ajunge-voi în cer\n" +
-                "Cu slavă îmbrăcat,\n" +
-                "Şi voi slăvi în veşnicii\n" +
-                "Pe Cel ce har mi-a dat. \n ";
-
-        songText.setText(songTextString);
+        songText.setText(songTextStringBuilder.toString());
 
     }
 
@@ -62,11 +65,5 @@ public class TestSong extends AppCompatActivity {
         Log.e("FONT_SIZE_PLUS",  textSize+0.5f+"");
     }
 
-    public void reduceZoom(View view) {
-        float textSize = songText.getTextSize()-40;
-        //textSize = textSize*-1;
-        Log.e("FONT_SIZE_MINUS", textSize + "");
-        songText.setTextSize(TypedValue.COMPLEX_UNIT_SP,textSize);
-        Log.e("FONT_SIZE_MINUS", textSize  + "");
-    }
+
 }

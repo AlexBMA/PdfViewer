@@ -1,33 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_margin"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
+
     <!--
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    -->
-    <Button
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textSize="20sp"
-        android:text="Test"
-
+    <ImageButton
         android:id="@+id/button_test"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="next"/>
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1"
+        android:onClick="next"
+        android:src="@drawable/printable_musical_notes_musical_notes_art"
+        />
+    -->
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/button_song_tineri"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="toSongTienri"
+            android:text="@string/cantari_tineri"
+            android:textSize="20sp"
+
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Test"
+            android:textSize="@dimen/text_size"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
