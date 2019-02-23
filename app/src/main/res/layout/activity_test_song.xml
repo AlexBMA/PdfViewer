@@ -27,7 +27,7 @@
             android:layout_below="@id/text_view_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Text"
+            tools:text="Text"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:textAlignment="center"
 
@@ -42,7 +42,7 @@
 
             <Button
                 android:id="@+id/button_zoom_plus"
-                android:text="Zoom+"
+                android:text="@string/zoom"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

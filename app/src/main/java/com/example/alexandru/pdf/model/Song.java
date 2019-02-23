@@ -11,10 +11,18 @@ public class Song {
     public Song() {
     }
 
+
     public Song(String nameSong, String textSong, String cateSong) {
         this.nameSong = nameSong;
         this.textSong = textSong;
         this.categorySong = cateSong;
+    }
+
+    public Song(int id, String nameSong, String textSong, String categorySong) {
+        this.id = id;
+        this.nameSong = nameSong;
+        this.textSong = textSong;
+        this.categorySong = categorySong;
     }
 
     public int getId() {
