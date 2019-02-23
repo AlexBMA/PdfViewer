@@ -55,17 +55,23 @@ public class SongsYouths extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 int size = listSongs.size();
-                int index =-1;
+                List<Integer> listIndex = new LinkedList<>();
 
+                s = s.toLowerCase();
                 for(int i=0;i<size;i++) {
-                    if(s.equalsIgnoreCase(listSongs.get(i).getNameSong())) {
-                        index = i;
-                        break;
+                    String currentSongTitle = listSongs.get(i).getNameSong().toLowerCase();
+                    if(s.contains(currentSongTitle)){
+                        listIndex.add(i);
                     }
                 }
-                if(index!=-1){
+
+                if(!listIndex.isEmpty()){
                     List<Song> listSongFilter = new LinkedList<>();
-                    listSongFilter.add(listSongs.get(index));
+
+                    for(Integer index : listIndex){
+                        listSongFilter.add(listSongs.get(index));
+                    }
+
                     SongAdapter songAdapter = new SongAdapter(SongsYouths.this,listSongFilter);
                     listView.setAdapter(songAdapter);
                     return true;
@@ -77,15 +83,21 @@ public class SongsYouths extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String s) {
 
+                //TODO
+                // You can optimize more with make all the song names lower case and make a new field in the song class
                 int size = listSongs.size();
                 //int index =-1;
                 List<Integer> listIndex = new LinkedList<>();
-
+                s = s.toLowerCase();
                 for(int i=0;i<size;i++){
-                    if(listSongs.get(i).getNameSong().startsWith(s)) {
+                    String currentSongTitle = listSongs.get(i).getNameSong().toLowerCase();
+
+                    if(currentSongTitle.contains(s)){
                         //index = i;
                         listIndex.add(i);
                     }
+
+
                 }
 
                 if(!listIndex.isEmpty()){
