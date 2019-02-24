@@ -57,10 +57,10 @@ public class TestSong extends AppCompatActivity {
     }
 
     public void increaseZoom(View view){
-        float textSize = songText.getTextSize()-10;
+        float textSize = songText.getTextSize();
         Log.e("FONT_SIZE_PLUS",  textSize+"");
         //songText.setTextSize(textSize+0.5f);
-        songText.setTextSize(TypedValue.COMPLEX_UNIT_SP,textSize+0.5f);
+        songText.setTextSize(TypedValue.COMPLEX_UNIT_SP,textSize+0.1f);
 
         Log.e("FONT_SIZE_PLUS",  textSize+0.5f+"");
     }
