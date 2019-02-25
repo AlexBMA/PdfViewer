@@ -2,12 +2,8 @@ package com.example.alexandru.pdf.activities;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.TypedValue;
-import android.view.View;
-import android.widget.Button;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.example.alexandru.pdf.R;
@@ -17,7 +13,8 @@ import com.example.alexandru.pdf.dbpack.MyDatabase;
 
 public class SongActivity extends AppCompatActivity {
 
-    private Button zoomPlus;
+
+    //private Button zoomPlus;
     private TextView textViewSongText;
     private TextView textViewSongTitle;
 
@@ -27,7 +24,7 @@ public class SongActivity extends AppCompatActivity {
         setContentView(R.layout.activity_song);
 
 
-        zoomPlus = findViewById(R.id.button_zoom_plus);
+        //zoomPlus = findViewById(R.id.button_zoom_plus);
         textViewSongText = findViewById(R.id.text_view_song);
         textViewSongTitle = findViewById(R.id.text_view_top);
 
@@ -37,20 +34,20 @@ public class SongActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         MyDatabase myDatabase = new MyDatabase(getApplicationContext());
-        Log.e("Value from intent: ",intent.getIntExtra(AppConstant.ID_SONG,0)+"");
+        //Log.e("Value from intent: ",intent.getIntExtra(AppConstant.ID_SONG,0)+"");
         Cursor c = myDatabase.getSong(intent.getIntExtra(AppConstant.ID_SONG,0));
 
         String songTitle = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE));
         String songText = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TEXT));
 
-        Log.e("Title:",  songTitle);
-        Log.e("SongActivity:",songText);
+        //Log.e("Title:",  songTitle);
+        //Log.e("SongActivity:",songText);
 
         textViewSongTitle.setText(songTitle);
         textViewSongText.setText(songText);
 
     }
-
+    /*
     private StringBuilder justATest() {
         textViewSongTitle.setText("Măreţul har");
 
@@ -77,16 +74,16 @@ public class SongActivity extends AppCompatActivity {
                               append("Pe Cel ce har mi-a dat. \n");
         return songTextStringBuilder;
     }
-
-
+    */
+    /*
     public void increaseZoom(View view){
         float textSize = textViewSongText.getTextSize()-30;
         Log.e("FONT_SIZE_PLUS",  textSize+"");
         //textViewSongText.setTextSize(textSize+0.5f);
-        textViewSongText.setTextSize(TypedValue.COMPLEX_UNIT_SP,textSize+0.01f);
+        textViewSongText.setTextSize(TypedValue.COMPLEX_UNIT_SP,textSize+ ZOOM_INCREASE);
 
-        Log.e("FONT_SIZE_PLUS",  textSize+0.01f+"");
+        Log.e("FONT_SIZE_PLUS",  textSize+ZOOM_INCREASE+"");
     }
-
+    */
 
 }
