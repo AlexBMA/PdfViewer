@@ -5,4 +5,6 @@
     <dimen name="margin_right_for_id">5dp</dimen>
     <dimen name="list_item_divider">2dp</dimen>
     <dimen name="SongTitlePadding">5dp</dimen>
+    <dimen name="padding_right_title_song">5dp</dimen>
+    <dimen name="padding_left_title_song">5dp</dimen>
 </resources>
