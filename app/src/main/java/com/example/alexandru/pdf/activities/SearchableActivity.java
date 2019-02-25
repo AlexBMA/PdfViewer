@@ -1,7 +1,9 @@
-package com.example.alexandru.pdf;
+package com.example.alexandru.pdf.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.alexandru.pdf.R;
 
 public class SearchableActivity extends AppCompatActivity {
 

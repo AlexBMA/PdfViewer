@@ -1,5 +1,7 @@
 package com.example.alexandru.pdf.activities;
 
+import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,25 +11,48 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.alexandru.pdf.R;
+import com.example.alexandru.pdf.constant.AppConstant;
+import com.example.alexandru.pdf.dbConstantPack.SongsAppTables;
+import com.example.alexandru.pdf.dbpack.MyDatabase;
 
-public class TestSong extends AppCompatActivity {
+public class SongActivity extends AppCompatActivity {
 
     private Button zoomPlus;
-    private Button zoomMinus;
-    private TextView songText;
-    private TextView songTitle;
+    private TextView textViewSongText;
+    private TextView textViewSongTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test_song);
+        setContentView(R.layout.activity_song);
 
-        zoomMinus = findViewById(R.id.button_zoom_minus);
+
         zoomPlus = findViewById(R.id.button_zoom_plus);
-        songText = findViewById(R.id.text_view_song);
-        songTitle = findViewById(R.id.text_view_top);
+        textViewSongText = findViewById(R.id.text_view_song);
+        textViewSongTitle = findViewById(R.id.text_view_top);
 
-        songTitle.setText("Măreţul har");
+        //StringBuilder songTextStringBuilder = justATest();
+        //textViewSongText.setText(songTextStringBuilder.toString());
+
+        Intent intent = getIntent();
+
+        MyDatabase myDatabase = new MyDatabase(getApplicationContext());
+        Log.e("Value from intent: ",intent.getIntExtra(AppConstant.ID_SONG,0)+"");
+        Cursor c = myDatabase.getSong(intent.getIntExtra(AppConstant.ID_SONG,0));
+
+        String songTitle = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE));
+        String songText = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TEXT));
+
+        Log.e("Title:",  songTitle);
+        Log.e("SongActivity:",songText);
+
+        textViewSongTitle.setText(songTitle);
+        textViewSongText.setText(songText);
+
+    }
+
+    private StringBuilder justATest() {
+        textViewSongTitle.setText("Măreţul har");
 
         StringBuilder songTextStringBuilder = new StringBuilder();
         songTextStringBuilder.append("\"1. Măreţul har m-a mântuit \n \"").
@@ -50,19 +75,17 @@ public class TestSong extends AppCompatActivity {
                               append("Cu slavă îmbrăcat,\n").
                               append("Şi voi slăvi în veşnicii\n").
                               append("Pe Cel ce har mi-a dat. \n");
-
-
-        songText.setText(songTextStringBuilder.toString());
-
+        return songTextStringBuilder;
     }
 
-    public void increaseZoom(View view){
-        float textSize = songText.getTextSize()-10;
-        Log.e("FONT_SIZE_PLUS",  textSize+"");
-        //songText.setTextSize(textSize+0.5f);
-        songText.setTextSize(TypedValue.COMPLEX_UNIT_SP,textSize+0.5f);
 
-        Log.e("FONT_SIZE_PLUS",  textSize+0.5f+"");
+    public void increaseZoom(View view){
+        float textSize = textViewSongText.getTextSize()-30;
+        Log.e("FONT_SIZE_PLUS",  textSize+"");
+        //textViewSongText.setTextSize(textSize+0.5f);
+        textViewSongText.setTextSize(TypedValue.COMPLEX_UNIT_SP,textSize+0.01f);
+
+        Log.e("FONT_SIZE_PLUS",  textSize+0.01f+"");
     }
 
 

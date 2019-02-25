@@ -32,11 +32,18 @@
             android:id="@+id/button_song_tineri"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="toSongTienri"
+            android:onClick="toSongYouths"
             android:text="@string/cantari_tineri"
             android:textSize="20sp"
 
             />
+        <TextView
+            android:textAlignment="center"
+            android:id="@+id/text_view_res_db"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Test"
+            android:textSize="20sp"/>
 
         <Button
             android:layout_width="match_parent"
