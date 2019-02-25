@@ -13,7 +13,7 @@ import java.util.List;
 
 public class SongOnItemClickListener implements AdapterView.OnItemClickListener {
 
-    //List<Song> list;
+    //List<SongActivity> list;
 
     ListView listView;
 

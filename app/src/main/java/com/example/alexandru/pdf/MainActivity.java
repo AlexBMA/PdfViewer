@@ -1,19 +1,14 @@
 package com.example.alexandru.pdf;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.alexandru.pdf.activities.SongActivity;
 import com.example.alexandru.pdf.activities.SongsYouths;
-import com.example.alexandru.pdf.activities.TestSong;
-import com.example.alexandru.pdf.dbConstantPack.SongsAppTables;
-import com.example.alexandru.pdf.dbpack.MyDatabase;
-import com.example.alexandru.pdf.model.Song;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,11 +23,12 @@ public class MainActivity extends AppCompatActivity {
         //imageView = findViewById(R.id.button_test);
         songButton = findViewById(R.id.button_song_tineri);
 
+        /*
         textView = findViewById(R.id.text_view_res_db);
 
         MyDatabase myDatabase = new MyDatabase(getApplicationContext());
 
-        Cursor c = myDatabase.getEmployees();
+        Cursor c = myDatabase.getSongs();
 
         if(c!=null) {
 
@@ -41,24 +37,26 @@ public class MainActivity extends AppCompatActivity {
             String songText = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TEXT));
             String songCategory = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_song_category));
 
-            Song song = new Song(index,songTitle, songText, songCategory);
+            SongActivity song = new SongActivity(index,songTitle, songText, songCategory);
+            // TODO make cursor that searches just id and name populate the list with the result and edit onclick for list item
+            // TODO so that is show the right song full text
 
 
             textView.setText(song.toString());
         }else{
             textView.setText("%%%");
         }
-
+        */
 
     }
 
-    public void toSongTienri(View view){
+    public void toSongYouths(View view){
         Intent intent = new Intent(MainActivity.this, SongsYouths.class);
         startActivity(intent);
     }
 
     public void next(View view){
-        Intent intent = new Intent(MainActivity.this, TestSong.class);
+        Intent intent = new Intent(MainActivity.this, SongActivity.class);
         startActivity(intent);
     }
 }

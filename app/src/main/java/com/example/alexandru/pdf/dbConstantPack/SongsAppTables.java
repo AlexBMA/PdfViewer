@@ -6,6 +6,8 @@ public final class SongsAppTables {
 
     public abstract class SongsTable implements BaseColumns {
 
+        public static final String TABLE_NAME="songs";
+
         public static final String COLUMN_ID = "Id";
         public static final String COLUMN_SONG_TITLE = "song_title";
         public static final String COLUMN_SONG_TEXT = "song_text";

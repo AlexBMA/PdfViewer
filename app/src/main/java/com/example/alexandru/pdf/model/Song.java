@@ -59,7 +59,7 @@ public class Song {
 
     @Override
     public String toString() {
-        return "Song{" +
+        return "SongActivity{" +
                 "id=" + id +
                 ", nameSong='" + nameSong + '\'' +
                 ", textSong='" + textSong + '\'' +

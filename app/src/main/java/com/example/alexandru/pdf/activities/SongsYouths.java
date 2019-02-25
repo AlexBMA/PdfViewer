@@ -3,6 +3,7 @@ package com.example.alexandru.pdf.activities;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,41 +15,43 @@ import android.widget.SearchView;
 import com.example.alexandru.pdf.R;
 import com.example.alexandru.pdf.adapter.SongAdapter;
 import com.example.alexandru.pdf.adapter.TestOnClick;
+import com.example.alexandru.pdf.constant.AppConstant;
+import com.example.alexandru.pdf.dbConstantPack.SongsAppTables;
+import com.example.alexandru.pdf.dbpack.MyDatabase;
 import com.example.alexandru.pdf.model.Song;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class SongsYouths extends AppCompatActivity {
 
     ListView listView;
     SearchManager searchManager;
     SearchView searchView;
-    List<Song> listSongs;
+    List<com.example.alexandru.pdf.model.Song> listSongs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_songs_youths);
 
         // get the list view
         listView = findViewById(R.id.list_view_songs_youths);
 
-        createDummyData();
+        MyDatabase myDatabase = new MyDatabase(getApplicationContext());
+        Cursor cursor = myDatabase.getSongsNamesAndId();
+
+        createDataFromCursor(cursor);
+
 
         //simpleTestForListView(listView);
         mediumTestForListView(listView);
 
 
         searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-
         searchView = findViewById(R.id.search_view_youth);
         //searchView = (SearchView) searchMenuItem.getActionView();
-
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-
         searchView.setSubmitButtonEnabled(true);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -66,7 +69,7 @@ public class SongsYouths extends AppCompatActivity {
                 }
 
                 if(!listIndex.isEmpty()){
-                    List<Song> listSongFilter = new LinkedList<>();
+                    List<com.example.alexandru.pdf.model.Song> listSongFilter = new LinkedList<>();
 
                     for(Integer index : listIndex){
                         listSongFilter.add(listSongs.get(index));
@@ -97,11 +100,10 @@ public class SongsYouths extends AppCompatActivity {
                         listIndex.add(i);
                     }
 
-
                 }
 
                 if(!listIndex.isEmpty()){
-                    List<Song> listSongFilter = new LinkedList<>();
+                    List<com.example.alexandru.pdf.model.Song> listSongFilter = new LinkedList<>();
 
                     for(Integer index : listIndex){
                         listSongFilter.add(listSongs.get(index));
@@ -113,7 +115,6 @@ public class SongsYouths extends AppCompatActivity {
                 }
 
 
-
                 return false;
             }
         });
@@ -121,29 +122,49 @@ public class SongsYouths extends AppCompatActivity {
 
     }
 
-    public void createDummyData(){
+    public void createDataFromCursor(Cursor c){
         listSongs = new LinkedList<>();
+        //int i=1;
 
-        listSongs.add(new Song(1,"Maretul har","stext1","category1"));
-        listSongs.add(new Song(2,"Victoria in Isus","stext2","category1"));
-        listSongs.add(new Song(3,"Tata noi vrem ca slava Ta","stext3","category1"));
-        listSongs.add(new Song(5,"Nu exista cruce fara iesle","stext3","category1"));
-        listSongs.add(new Song(6,"Victoria in Isus 2","stext5","category1"));
-        listSongs.add(new Song(7,"O noua zi","stext6","category1"));
+        do{
+            int index = c.getInt(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_ID));
+            String songTitle = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE));
+            //String songText = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TEXT));
+            //String songCategory = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_song_category));
+
+            listSongs.add(new com.example.alexandru.pdf.model.Song(index,songTitle,"",""));
+        }while (c.moveToNext());
+
+        /*
+        while (c.moveToNext()){
+            int index = c.getInt(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_ID));
+            String songTitle = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE));
+            //String songText = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TEXT));
+            //String songCategory = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_song_category));
+
+            listSongs.add(new com.example.alexandru.pdf.model.SongActivity(index,songTitle,"",""));
+            //i++;
+        }
+        */
+
+
     }
 
-    public void mediumTestForListView(ListView listView){
 
 
-
+    public void mediumTestForListView(final ListView listView){
 
         SongAdapter songAdapter = new SongAdapter(this,listSongs);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Intent intent = new Intent(SongsYouths.this, SongActivity.class);
 
-                Intent intent = new Intent(SongsYouths.this,TestSong.class);
+                Song temp = (Song) listView.getItemAtPosition(position);
+                //listItemModel.toString();
+
+                intent.putExtra(AppConstant.ID_SONG,temp.getId());
                 startActivity(intent);
             }
         });
@@ -152,7 +173,16 @@ public class SongsYouths extends AppCompatActivity {
     }
 
 
+    public void createDummyData(){
+        listSongs = new LinkedList<>();
 
+        listSongs.add(new com.example.alexandru.pdf.model.Song(1,"Maretul har","stext1","category1"));
+        listSongs.add(new com.example.alexandru.pdf.model.Song(2,"Victoria in Isus","stext2","category1"));
+        listSongs.add(new com.example.alexandru.pdf.model.Song(3,"Tata noi vrem ca slava Ta","stext3","category1"));
+        listSongs.add(new com.example.alexandru.pdf.model.Song(5,"Nu exista cruce fara iesle","stext3","category1"));
+        listSongs.add(new com.example.alexandru.pdf.model.Song(6,"Victoria in Isus 2","stext5","category1"));
+        listSongs.add(new com.example.alexandru.pdf.model.Song(7,"O noua zi","stext6","category1"));
+    }
 
     private void simpleTestForListView(ListView listView) {
         // define the values

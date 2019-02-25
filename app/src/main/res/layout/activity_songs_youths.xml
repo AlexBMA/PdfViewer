@@ -17,11 +17,13 @@
     </SearchView>
 
     <ListView
+
         android:layout_below="@+id/search_view_youth"
         android:id="@+id/list_view_songs_youths"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@null">
+        android:divider="@color/colorPrimary"
+        android:dividerHeight="@dimen/list_item_divider">
     </ListView>
 
 </RelativeLayout>
