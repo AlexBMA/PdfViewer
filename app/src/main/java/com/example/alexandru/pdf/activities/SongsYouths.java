@@ -4,8 +4,8 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,7 +28,7 @@ public class SongsYouths extends AppCompatActivity {
     ListView listView;
     SearchManager searchManager;
     SearchView searchView;
-    List<com.example.alexandru.pdf.model.Song> listSongs;
+    List<Song> listSongs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,6 @@ public class SongsYouths extends AppCompatActivity {
 
         searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = findViewById(R.id.search_view_youth);
-        //searchView = (SearchView) searchMenuItem.getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setSubmitButtonEnabled(true);
 
@@ -147,9 +146,7 @@ public class SongsYouths extends AppCompatActivity {
         }
         */
 
-
     }
-
 
 
     public void mediumTestForListView(final ListView listView){

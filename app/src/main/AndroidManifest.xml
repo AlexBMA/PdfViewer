@@ -18,8 +18,21 @@
             <meta-data android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
         </activity>
-        <activity android:name=".activities.SongsYouths" />
-        <activity android:name=".activities.SongActivity" />
+        <activity android:name=".activities.SongsYouths"
+                  android:parentActivityName=".MainActivity">
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MainActivity" />
+
+        </activity>
+        <activity android:name=".activities.SongActivity"
+                  android:parentActivityName=".activities.SongsYouths">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.SongsYouths" />
+        </activity>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

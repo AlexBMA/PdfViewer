@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="activity_margin">16dp</dimen>
-    <dimen name="text_size">20sp</dimen>
+    <dimen name="activity_margin">5dp</dimen>
+    <dimen name="text_size">25sp</dimen>
     <dimen name="margin_right_for_id">5dp</dimen>
     <dimen name="list_item_divider">2dp</dimen>
+    <dimen name="SongTitlePadding">5dp</dimen>
 </resources>

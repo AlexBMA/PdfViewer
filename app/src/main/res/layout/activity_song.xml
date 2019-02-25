@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,13 +11,14 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:background="@android:color/black"
+            android:background="@color/colorPrimary"
+            android:padding="@dimen/SongTitlePadding"
             android:textColor="@android:color/white"
             android:layout_margin="5dp"
             android:id="@+id/text_view_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Songs name"
+            tools:text="Song name"
             android:textAlignment="center"
             android:textSize="@dimen/text_size"
             />
@@ -27,12 +27,12 @@
             android:layout_below="@id/text_view_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size"
             tools:text="Text"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:textAlignment="center"
-
             />
-
+        <!--
         <LinearLayout
             android:orientation="horizontal"
             android:layout_gravity="center"
@@ -41,22 +41,22 @@
             android:layout_height="wrap_content">
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/button_zoom_plus"
                 android:text="@string/zoom"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="increaseZoom"/>
+                android:layout_height="wrap_content" />
             <Button
+                android:textSize="@dimen/text_size"
                 android:visibility="gone"
                 android:id="@+id/button_zoom_minus"
                 android:text="Zoom-"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
         </LinearLayout>
-
+        -->
 
     </RelativeLayout>
 

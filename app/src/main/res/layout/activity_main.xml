@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,7 +22,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -34,10 +32,11 @@
             android:layout_height="wrap_content"
             android:onClick="toSongYouths"
             android:text="@string/cantari_tineri"
-            android:textSize="20sp"
+            android:textSize="@dimen/text_size"
 
             />
         <TextView
+            android:visibility="gone"
             android:textAlignment="center"
             android:id="@+id/text_view_res_db"
             android:layout_width="match_parent"
@@ -48,7 +47,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Test"
+            tools:text="Test"
             android:textSize="@dimen/text_size"
             android:visibility="gone"/>
 
