@@ -1,57 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/activity_margin"
-    android:orientation="vertical"
     tools:context=".MainActivity">
-
-
-    <!--
-    <ImageButton
-        android:id="@+id/button_test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_weight="1"
-        android:onClick="next"
-        android:src="@drawable/printable_musical_notes_musical_notes_art"
-        />
-    -->
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/button_song_tineri"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="toSongYouths"
-            android:text="@string/cantari_tineri"
-            android:textSize="@dimen/text_size"
-
+        <ImageView
+            android:id="@+id/button_test"
+            android:layout_width="wrap_content"
+            android:layout_height="655dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:scaleType="fitXY"
+            android:src="@drawable/poza2"
             />
-        <TextView
-            android:visibility="gone"
-            android:textAlignment="center"
-            android:id="@+id/text_view_res_db"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="Test"
-            android:textSize="20sp"/>
 
-        <Button
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Test"
-            android:textSize="@dimen/text_size"
-            android:visibility="gone"/>
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/button_song_tineri"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="toSongYouths"
+                android:text="@string/cantari_tineri"
+                android:textSize="@dimen/text_size"
+
+                />
+            <!--
+            <TextView
+                android:visibility="gone"
+                android:textAlignment="center"
+                android:id="@+id/text_view_res_db"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Test"
+                android:textSize="20sp"/>
+            -->
+            <!--
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Test"
+                android:textSize="@dimen/text_size"
+                android:visibility="gone"/>
+            -->
+        </LinearLayout>
+
 
     </LinearLayout>
 
 
-</LinearLayout>
+
+
+</ScrollView>
