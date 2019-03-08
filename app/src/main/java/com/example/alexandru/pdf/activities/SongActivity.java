@@ -37,53 +37,16 @@ public class SongActivity extends AppCompatActivity {
         //Log.e("Value from intent: ",intent.getIntExtra(AppConstant.ID_SONG,0)+"");
         Cursor c = myDatabase.getSong(intent.getIntExtra(AppConstant.ID_SONG,0));
 
+        int id = c.getInt(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_ID));
         String songTitle = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE));
         String songText = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TEXT));
 
-        //Log.e("Title:",  songTitle);
-        //Log.e("SongActivity:",songText);
 
+        songTitle=id+" "+songTitle;
         textViewSongTitle.setText(songTitle);
         textViewSongText.setText(songText);
 
     }
-    /*
-    private StringBuilder justATest() {
-        textViewSongTitle.setText("Măreţul har");
 
-        StringBuilder songTextStringBuilder = new StringBuilder();
-        songTextStringBuilder.append("\"1. Măreţul har m-a mântuit \n \"").
-                              append("Pe mine din păcat.\n").
-                              append("Pierdut eram, dar m-a găsit,\n").
-                              append( "De moarte m-a scăpat. \n \n").
-                              append("2. Măreţul har m-a învăţat\n\"").
-                              append( "S-o rup cu orice rău.\n").
-                              append("Ce scump mi-e azi tot harul dat;\n").
-                              append("Trăiesc prin har mereu.\n \n").
-                              append("3. Dureri, batjocuri, prigoniri,\n").
-                              append("S-o rup cu orice rău.\n").
-                              append("Ce scump mi-e azi tot harul dat;\n").
-                              append("Trăiesc prin har mereu.\n \n").
-                              append("3. Dureri, batjocuri, prigoniri,\n").
-                              append("Adesea-m întâlnit;\n").
-                              append("Prin harul marii Lui Iubiri\n").
-                              append("Eu toate-am biruit. \n \n").
-                              append("4. Prin har ajunge-voi în cer\n").
-                              append("Cu slavă îmbrăcat,\n").
-                              append("Şi voi slăvi în veşnicii\n").
-                              append("Pe Cel ce har mi-a dat. \n");
-        return songTextStringBuilder;
-    }
-    */
-    /*
-    public void increaseZoom(View view){
-        float textSize = textViewSongText.getTextSize()-30;
-        Log.e("FONT_SIZE_PLUS",  textSize+"");
-        //textViewSongText.setTextSize(textSize+0.5f);
-        textViewSongText.setTextSize(TypedValue.COMPLEX_UNIT_SP,textSize+ ZOOM_INCREASE);
-
-        Log.e("FONT_SIZE_PLUS",  textSize+ZOOM_INCREASE+"");
-    }
-    */
 
 }
