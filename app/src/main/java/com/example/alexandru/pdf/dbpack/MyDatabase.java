@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 
 import com.example.alexandru.pdf.dbConstantPack.SongsAppTables;
-import com.example.alexandru.pdf.model.Song;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 public class MyDatabase extends SQLiteAssetHelper {
@@ -42,7 +41,9 @@ public class MyDatabase extends SQLiteAssetHelper {
         db = getReadableDatabase();
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
-        String [] sqlSelect = {SongsAppTables.SongsTable.COLUMN_ID,SongsAppTables.SongsTable.COLUMN_SONG_TITLE};
+        String [] sqlSelect = {SongsAppTables.SongsTable.COLUMN_ID,
+                               SongsAppTables.SongsTable.COLUMN_SONG_TITLE,
+                               SongsAppTables.SongsTable.COLUMN_SONG_TITLE_NO_ROM};
 
         qb.setTables(SongsAppTables.SongsTable.TABLE_NAME);
 

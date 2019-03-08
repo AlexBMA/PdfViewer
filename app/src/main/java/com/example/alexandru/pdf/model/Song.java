@@ -6,23 +6,17 @@ public class Song {
     private String nameSong;
     private String textSong;
     private String categorySong;
-
+    private String nameSongNoRom;
 
     public Song() {
     }
 
-
-    public Song(String nameSong, String textSong, String cateSong) {
-        this.nameSong = nameSong;
-        this.textSong = textSong;
-        this.categorySong = cateSong;
-    }
-
-    public Song(int id, String nameSong, String textSong, String categorySong) {
+    public Song(int id, String nameSong, String textSong, String categorySong, String nameSongNoRom) {
         this.id = id;
         this.nameSong = nameSong;
         this.textSong = textSong;
         this.categorySong = categorySong;
+        this.nameSongNoRom = nameSongNoRom;
     }
 
     public int getId() {
@@ -57,13 +51,22 @@ public class Song {
         this.categorySong = categorySong;
     }
 
+    public String getNameSongNoRom() {
+        return nameSongNoRom;
+    }
+
+    public void setNameSongNoRom(String nameSongNoRom) {
+        this.nameSongNoRom = nameSongNoRom;
+    }
+
     @Override
     public String toString() {
-        return "SongActivity{" +
+        return "Song{" +
                 "id=" + id +
                 ", nameSong='" + nameSong + '\'' +
                 ", textSong='" + textSong + '\'' +
                 ", categorySong='" + categorySong + '\'' +
+                ", nameSongNoRom='" + nameSongNoRom + '\'' +
                 '}';
     }
 }

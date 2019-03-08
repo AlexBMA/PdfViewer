@@ -39,8 +39,6 @@ public class SongAdapter extends ArrayAdapter<Song> {
 
         TextView textViewTitle = listItemView.findViewById(R.id.text_view_song_title_item);
         textViewTitle.setText(currentSong.getNameSong());
-        int maxWithPx = textViewTitle.getMaxWidth();
-        int songTitleLenght = currentSong.getNameSong().length();
 
 
         TextView textViewIndex = listItemView.findViewById(R.id.text_view_song_id_item);

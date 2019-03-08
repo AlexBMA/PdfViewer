@@ -1,6 +1,5 @@
 package com.example.alexandru.pdf.activities;
 
-import android.app.SearchManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -28,8 +27,6 @@ import java.util.List;
 public class SongsYouths extends AppCompatActivity {
 
     ListView listView;
-    SearchManager searchManager;
-    SearchView searchView;
     List<Song> listSongs;
 
     @Override
@@ -45,81 +42,10 @@ public class SongsYouths extends AppCompatActivity {
 
         createDataFromCursor(cursor);
 
-
         //simpleTestForListView(listView);
         mediumTestForListView(listView);
 
-        /*
-        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = findViewById(R.id.search_view_youth);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setSubmitButtonEnabled(true);
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                int size = listSongs.size();
-                List<Integer> listIndex = new LinkedList<>();
-
-                s = s.toLowerCase();
-                for(int i=0;i<size;i++) {
-                    String currentSongTitle = listSongs.get(i).getNameSong().toLowerCase();
-                    if(s.contains(currentSongTitle)){
-                        listIndex.add(i);
-                    }
-                }
-
-                if(!listIndex.isEmpty()){
-                    List<com.example.alexandru.pdf.model.Song> listSongFilter = new LinkedList<>();
-
-                    for(Integer index : listIndex){
-                        listSongFilter.add(listSongs.get(index));
-                    }
-
-                    SongAdapter songAdapter = new SongAdapter(SongsYouths.this,listSongFilter);
-                    listView.setAdapter(songAdapter);
-                    return true;
-                }
-
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-
-                //TODO
-                // You can optimize more with make all the song names lower case and make a new field in the song class
-                int size = listSongs.size();
-                //int index =-1;
-                List<Integer> listIndex = new LinkedList<>();
-                s = s.toLowerCase();
-                for(int i=0;i<size;i++){
-                    String currentSongTitle = listSongs.get(i).getNameSong().toLowerCase();
-
-                    if(currentSongTitle.contains(s)){
-                        //index = i;
-                        listIndex.add(i);
-                    }
-
-                }
-
-                if(!listIndex.isEmpty()){
-                    List<com.example.alexandru.pdf.model.Song> listSongFilter = new LinkedList<>();
-
-                    for(Integer index : listIndex){
-                        listSongFilter.add(listSongs.get(index));
-                    }
-
-                    SongAdapter songAdapter = new SongAdapter(SongsYouths.this,listSongFilter);
-                    listView.setAdapter(songAdapter);
-                    return true;
-                }
-
-
-                return false;
-            }
-        });
-        */
     }
 
 
@@ -135,57 +61,22 @@ public class SongsYouths extends AppCompatActivity {
             public boolean onQueryTextSubmit(String s) {
                 int size = listSongs.size();
                 List<Integer> listIndex = new LinkedList<>();
-
-                s = s.toLowerCase();
-                for(int i=0;i<size;i++) {
-                    String currentSongTitle = listSongs.get(i).getNameSong().toLowerCase();
-                    if(s.contains(currentSongTitle)){
-                        listIndex.add(i);
-                    }
-                }
+                searchForSong(s, size, listIndex);
 
                 if(!listIndex.isEmpty()){
-                    List<com.example.alexandru.pdf.model.Song> listSongFilter = new LinkedList<>();
-
-                    for(Integer index : listIndex){
-                        listSongFilter.add(listSongs.get(index));
-                    }
-
-                    SongAdapter songAdapter = new SongAdapter(SongsYouths.this,listSongFilter);
-                    listView.setAdapter(songAdapter);
-                    return true;
+                    return populateView(listIndex);
                 }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                //TODO
-                // You can optimize more with make all the song names lower case and make a new field in the song class
                 int size = listSongs.size();
-                //int index =-1;
                 List<Integer> listIndex = new LinkedList<>();
-                s = s.toLowerCase();
-                for(int i=0;i<size;i++){
-                    String currentSongTitle = listSongs.get(i).getNameSong().toLowerCase();
-
-                    if(currentSongTitle.contains(s)){
-                        //index = i;
-                        listIndex.add(i);
-                    }
-
-                }
+                searchForSong(s, size, listIndex);
 
                 if(!listIndex.isEmpty()){
-                    List<com.example.alexandru.pdf.model.Song> listSongFilter = new LinkedList<>();
-
-                    for(Integer index : listIndex){
-                        listSongFilter.add(listSongs.get(index));
-                    }
-
-                    SongAdapter songAdapter = new SongAdapter(SongsYouths.this,listSongFilter);
-                    listView.setAdapter(songAdapter);
-                    return true;
+                    return populateView(listIndex);
                 }
                 return false;
             }
@@ -195,30 +86,40 @@ public class SongsYouths extends AppCompatActivity {
 
     }
 
+    private void searchForSong(String s, int size, List<Integer> listIndex) {
+        s = s.toLowerCase();
+        for (int i = 0; i < size; i++) {
+            String currentSongTitle = listSongs.get(i).getNameSongNoRom();
+            if (currentSongTitle.contains(s)) {
+                listIndex.add(i);
+            }
+        }
+    }
+
+    private boolean populateView(List<Integer> listIndex) {
+        List<Song> listSongFilter = new LinkedList<>();
+
+        for (Integer index : listIndex) {
+            listSongFilter.add(listSongs.get(index));
+        }
+
+        SongAdapter songAdapter = new SongAdapter(SongsYouths.this, listSongFilter);
+        listView.setAdapter(songAdapter);
+        return true;
+    }
+
     public void createDataFromCursor(Cursor c){
         listSongs = new LinkedList<>();
-        //int i=1;
 
         do{
             int index = c.getInt(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_ID));
             String songTitle = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE));
+            String songTitleNoRom = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE_NO_ROM));
             //String songText = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TEXT));
-            //String songCategory = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_song_category));
+            //String songCategory = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_CATEGORY));
 
-            listSongs.add(new com.example.alexandru.pdf.model.Song(index,songTitle,"",""));
+            listSongs.add(new com.example.alexandru.pdf.model.Song(index,songTitle,"","",songTitleNoRom));
         }while (c.moveToNext());
-
-        /*
-        while (c.moveToNext()){
-            int index = c.getInt(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_ID));
-            String songTitle = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE));
-            //String songText = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TEXT));
-            //String songCategory = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_song_category));
-
-            listSongs.add(new com.example.alexandru.pdf.model.SongActivity(index,songTitle,"",""));
-            //i++;
-        }
-        */
 
     }
 
@@ -243,8 +144,9 @@ public class SongsYouths extends AppCompatActivity {
         listView.setAdapter(songAdapter);
     }
 
-
+    /*
     public void createDummyData(){
+
         listSongs = new LinkedList<>();
 
         listSongs.add(new com.example.alexandru.pdf.model.Song(1,"Maretul har","stext1","category1"));
@@ -254,6 +156,7 @@ public class SongsYouths extends AppCompatActivity {
         listSongs.add(new com.example.alexandru.pdf.model.Song(6,"Victoria in Isus 2","stext5","category1"));
         listSongs.add(new com.example.alexandru.pdf.model.Song(7,"O noua zi","stext6","category1"));
     }
+    */
 
     private void simpleTestForListView(ListView listView) {
         // define the values

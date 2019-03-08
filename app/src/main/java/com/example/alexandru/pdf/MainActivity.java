@@ -1,8 +1,8 @@
 package com.example.alexandru.pdf;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
             int index = c.getInt(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_ID));
             String songTitle = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE));
             String songText = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TEXT));
-            String songCategory = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_song_category));
+            String songCategory = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_CATEGORY));
 
             SongActivity song = new SongActivity(index,songTitle, songText, songCategory);
             // TODO make cursor that searches just id and name populate the list with the result and edit onclick for list item
