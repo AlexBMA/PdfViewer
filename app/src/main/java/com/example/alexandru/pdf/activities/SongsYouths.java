@@ -29,6 +29,8 @@ public class SongsYouths extends AppCompatActivity {
     ListView listView;
     List<Song> listSongs;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,10 +42,14 @@ public class SongsYouths extends AppCompatActivity {
         MyDatabase myDatabase = new MyDatabase(getApplicationContext());
         Cursor cursor = myDatabase.getSongsNamesAndId();
 
+
         createDataFromCursor(cursor);
 
         //simpleTestForListView(listView);
         mediumTestForListView(listView);
+
+
+
 
 
     }
