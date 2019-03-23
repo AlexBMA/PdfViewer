@@ -27,7 +27,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:onClick="toSongYouths"
-
             android:text="@string/cantari_tineri"
             android:textSize="@dimen/text_size"
             app:layout_constraintBottom_toBottomOf="parent"
