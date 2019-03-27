@@ -42,6 +42,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
 
 
         TextView textViewIndex = listItemView.findViewById(R.id.text_view_song_id_item);
+        //textViewIndex.setText("");
         textViewIndex.setText(Integer.toString(currentSong.getId()));
 
         return listItemView;

@@ -19,7 +19,8 @@
             android:textSize="@dimen/text_size"
             android:textStyle="bold"
             tools:text="0"
-            
+            android:visibility="visible"
+
             android:layout_marginRight="@dimen/margin_right_for_id"
             />
 

@@ -47,6 +47,7 @@ public class MyDatabase extends SQLiteAssetHelper {
 
         qb.setTables(SongsAppTables.SongsTable.TABLE_NAME);
 
+        //Cursor c = qb.query(db, sqlSelect, null, null, null, null, SongsAppTables.SongsTable.COLUMN_SONG_TITLE_NO_ROM+" ASC");
         Cursor c = qb.query(db, sqlSelect, null, null, null, null, null);
         c.moveToFirst();
 

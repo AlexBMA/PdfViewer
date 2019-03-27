@@ -68,6 +68,7 @@ public class SongsYouths extends AppCompatActivity {
                 int size = listSongs.size();
                 List<Integer> listIndex = new LinkedList<>();
                 searchForSong(s, size, listIndex);
+                //listIndex = sortList(listIndex);
 
                 if(!listIndex.isEmpty()){
                     return populateView(listIndex);
@@ -80,7 +81,7 @@ public class SongsYouths extends AppCompatActivity {
                 int size = listSongs.size();
                 List<Integer> listIndex = new LinkedList<>();
                 searchForSong(s, size, listIndex);
-
+                //listIndex = sortList(listIndex);
                 if(!listIndex.isEmpty()){
                     return populateView(listIndex);
                 }
@@ -92,11 +93,25 @@ public class SongsYouths extends AppCompatActivity {
 
     }
 
+    private List<Integer> sortList(List<Integer> list) {
+        int size = list.size();
+        for (int i = 0; i < size - 1; i++)
+            for (int j = i + 1; j < size; j++) {
+                if (list.get(i) > list.get(j)) {
+                    int aux = list.get(i);
+                    list.add(i, list.get(j));
+                    list.add(j, aux);
+                }
+            }
+        return list;
+    }
+
     private void searchForSong(String s, int size, List<Integer> listIndex) {
         s = s.toLowerCase();
         for (int i = 0; i < size; i++) {
             String currentSongTitle = listSongs.get(i).getNameSongNoRom();
-            if (currentSongTitle.contains(s)) {
+            String idSong = listSongs.get(i).getId() + "";
+            if (currentSongTitle.contains(s) || idSong.contains(s)) {
                 listIndex.add(i);
             }
         }
