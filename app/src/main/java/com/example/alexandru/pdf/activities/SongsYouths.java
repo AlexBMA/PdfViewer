@@ -202,13 +202,7 @@ public class SongsYouths extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Intent intent = new Intent(SongsYouths.this, SongActivity.class);
-
-                Song temp = (Song) listView.getItemAtPosition(position);
-                //listItemModel.toString();
-
-                intent.putExtra(AppConstant.ID_SONG,temp.getId());
-                startActivity(intent);
+                clickEvent(position, listView);
             }
         });
 
@@ -216,5 +210,14 @@ public class SongsYouths extends AppCompatActivity {
 
     }
 
+    private void clickEvent(int position, ListView listView) {
+        Intent intent = new Intent(SongsYouths.this, SongActivity.class);
+
+        Song temp = (Song) listView.getItemAtPosition(position);
+        //listItemModel.toString();
+
+        intent.putExtra(AppConstant.ID_SONG,temp.getId());
+        startActivity(intent);
+    }
 
 }

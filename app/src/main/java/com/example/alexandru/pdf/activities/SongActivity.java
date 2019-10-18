@@ -51,7 +51,6 @@ public class SongActivity extends AppCompatActivity {
             myRef = database.getReference(SONG);
             withNetWorkCase(idSong);
         }else {
-
             withNoNetWorkCase(idSong);
         }
 
@@ -65,8 +64,11 @@ public class SongActivity extends AppCompatActivity {
         String songTitle = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE));
         String songText = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TEXT));
 
+        setTheView(id, songTitle, songText);
+    }
 
-        songTitle=id+" "+songTitle;
+    private void setTheView(int id, String songTitle, String songText) {
+        songTitle = id + " " + songTitle;
         textViewSongTitle.setText(songTitle);
         textViewSongText.setText(songText);
     }
@@ -93,9 +95,7 @@ public class SongActivity extends AppCompatActivity {
         String nameSong = child.getValue(Song.class).getNameSong();
         int id = child.getValue(Song.class).getId();
 
-        nameSong = id+" "+nameSong;
-        textViewSongTitle.setText(nameSong);
-        textViewSongText.setText(textSong);
+        setTheView(id, nameSong, textSong);
     }
 
 
