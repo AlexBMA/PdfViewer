@@ -1,11 +1,11 @@
 package com.example.alexandru.pdf.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,7 +18,9 @@ import com.example.alexandru.pdf.R;
 import com.example.alexandru.pdf.adapter.SongAdapter;
 import com.example.alexandru.pdf.constant.AppConstant;
 import com.example.alexandru.pdf.dbConstantPack.SongsAppTables;
+import com.example.alexandru.pdf.dbpack.MyDatabase;
 import com.example.alexandru.pdf.model.Song;
+import com.example.alexandru.pdf.utils.NetWorkUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,24 +47,24 @@ public class SongsYouths extends AppCompatActivity {
         // get the list view
         listView = findViewById(R.id.list_view_songs_youths);
 
-        // Read from the database
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference(SONG);
+        boolean isNetwork = NetWorkUtils.isNetworkAvailable(getSystemService(Context.CONNECTIVITY_SERVICE));
 
+        if(isNetwork){
 
-        //MyDatabase myDatabase = new MyDatabase(getApplicationContext());
-        //Cursor cursor = myDatabase.getSongsNamesAndId();
+            // Read from the database
+            database = FirebaseDatabase.getInstance();
+            myRef = database.getReference(SONG);
 
-        //createDataFromCursor(cursor);
+        }else {
+            MyDatabase myDatabase = new MyDatabase(getApplicationContext());
+            Cursor cursor = myDatabase.getSongsNamesAndId();
 
-        //simpleTestForListView(listView);
-        mediumTestForListView(listView);
+            createDataFromCursor(cursor);
+        }
 
-
-        //Cursor allSongs = myDatabase.getSongs();
-        //saveAllDataToFireBase(allSongs);
-
+        populateTheListView(listView,isNetwork);
     }
+
 
     private void saveAllDataToFireBase(Cursor allSongs) {
 
@@ -156,7 +158,7 @@ public class SongsYouths extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Failed to read value
-                Log.w("TAG", "Failed to read value.", databaseError.toException());
+                //Log.w("TAG", "Failed to read value.", databaseError.toException());
             }
         });
     }
@@ -190,10 +192,13 @@ public class SongsYouths extends AppCompatActivity {
     }
 
 
-    public void mediumTestForListView(final ListView listView){
-        listSongs = new LinkedList<>();
+    public void populateTheListView(final ListView listView, boolean isNetwork){
+        if (listView == null) listSongs = new LinkedList<>();
+
         SongAdapter songAdapter = new SongAdapter(this,listSongs);
-        createDataFromFireBase(songAdapter);
+
+        if(isNetwork) createDataFromFireBase(songAdapter);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
