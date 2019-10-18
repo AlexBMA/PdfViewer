@@ -3,7 +3,9 @@ package com.example.alexandru.pdf.activities;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,19 +18,23 @@ import com.example.alexandru.pdf.R;
 import com.example.alexandru.pdf.adapter.SongAdapter;
 import com.example.alexandru.pdf.constant.AppConstant;
 import com.example.alexandru.pdf.dbConstantPack.SongsAppTables;
-import com.example.alexandru.pdf.dbpack.MyDatabase;
 import com.example.alexandru.pdf.model.Song;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class SongsYouths extends AppCompatActivity {
 
-    ListView listView;
-    List<Song> listSongs;
-
+    public static final String SONG = "song";
+    private ListView listView;
+    private List<Song> listSongs;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
 
 
     @Override
@@ -39,10 +45,15 @@ public class SongsYouths extends AppCompatActivity {
         // get the list view
         listView = findViewById(R.id.list_view_songs_youths);
 
-        MyDatabase myDatabase = new MyDatabase(getApplicationContext());
-        Cursor cursor = myDatabase.getSongsNamesAndId();
+        // Read from the database
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference(SONG);
 
-        createDataFromCursor(cursor);
+
+        //MyDatabase myDatabase = new MyDatabase(getApplicationContext());
+        //Cursor cursor = myDatabase.getSongsNamesAndId();
+
+        //createDataFromCursor(cursor);
 
         //simpleTestForListView(listView);
         mediumTestForListView(listView);
@@ -70,7 +81,7 @@ public class SongsYouths extends AppCompatActivity {
 
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("song");
+        DatabaseReference myRef = database.getReference(SONG);
 
         myRef.setValue(listSongs);
     }
@@ -132,6 +143,39 @@ public class SongsYouths extends AppCompatActivity {
         return true;
     }
 
+
+    public void createDataFromFireBase(final SongAdapter songAdapter){
+        listSongs = new LinkedList<>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                getDataFromFireBase(dataSnapshot,songAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Failed to read value
+                Log.w("TAG", "Failed to read value.", databaseError.toException());
+            }
+        });
+    }
+
+    private void getDataFromFireBase(@NonNull DataSnapshot dataSnapshot,SongAdapter songAdapter) {
+        for(DataSnapshot ds: dataSnapshot.getChildren()){
+            Song song = new Song();
+            song.setId(ds.getValue(Song.class).getId());
+            song.setNameSong(ds.getValue(Song.class).getNameSong());
+            song.setNameSongNoRom(ds.getValue(Song.class).getNameSongNoRom());
+            listSongs.add(song);
+            songAdapter.add(song);
+        }
+
+        //List<Object> song = dataSnapshot.getValue(ArrayList.class);
+        //listSongs.add(song);
+        //Log.d("TAG", "Value is: " + song.toString());
+    }
+
     public void createDataFromCursor(Cursor c){
         listSongs = new LinkedList<>();
 
@@ -150,7 +194,7 @@ public class SongsYouths extends AppCompatActivity {
 
 
     public void mediumTestForListView(final ListView listView){
-
+        listSongs = new LinkedList<>();
         SongAdapter songAdapter = new SongAdapter(this,listSongs);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -167,6 +211,7 @@ public class SongsYouths extends AppCompatActivity {
         });
 
         listView.setAdapter(songAdapter);
+        createDataFromFireBase(songAdapter);
     }
 
 
