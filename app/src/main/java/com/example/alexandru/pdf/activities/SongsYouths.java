@@ -9,17 +9,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.example.alexandru.pdf.R;
 import com.example.alexandru.pdf.adapter.SongAdapter;
-import com.example.alexandru.pdf.adapter.TestOnClick;
 import com.example.alexandru.pdf.constant.AppConstant;
 import com.example.alexandru.pdf.dbConstantPack.SongsAppTables;
 import com.example.alexandru.pdf.dbpack.MyDatabase;
 import com.example.alexandru.pdf.model.Song;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -42,16 +42,37 @@ public class SongsYouths extends AppCompatActivity {
         MyDatabase myDatabase = new MyDatabase(getApplicationContext());
         Cursor cursor = myDatabase.getSongsNamesAndId();
 
-
         createDataFromCursor(cursor);
 
         //simpleTestForListView(listView);
         mediumTestForListView(listView);
 
 
+        //Cursor allSongs = myDatabase.getSongs();
+        //saveAllDataToFireBase(allSongs);
 
+    }
 
+    private void saveAllDataToFireBase(Cursor allSongs) {
 
+        listSongs = new LinkedList<>();
+
+        do{
+            int index = allSongs.getInt(allSongs.getColumnIndex(SongsAppTables.SongsTable.COLUMN_ID));
+            String songTitle = allSongs.getString(allSongs.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE));
+            String songTitleNoRom = allSongs.getString(allSongs.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE_NO_ROM));
+            String songText = allSongs.getString(allSongs.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TEXT));
+            String songCategory = allSongs.getString(allSongs.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_CATEGORY));
+
+            Song song = new Song(index, songTitle, songText, songCategory, songTitleNoRom);
+            listSongs.add(song);
+        }while (allSongs.moveToNext());
+
+        // Write a message to the database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("song");
+
+        myRef.setValue(listSongs);
     }
 
 
@@ -64,27 +85,13 @@ public class SongsYouths extends AppCompatActivity {
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
-                int size = listSongs.size();
-                List<Integer> listIndex = new LinkedList<>();
-                searchForSong(s, size, listIndex);
-
-                if(!listIndex.isEmpty()){
-                    return populateView(listIndex);
-                }
-                return false;
+            public boolean onQueryTextSubmit(String song) {
+                return searchSong(song);
             }
 
             @Override
-            public boolean onQueryTextChange(String s) {
-                int size = listSongs.size();
-                List<Integer> listIndex = new LinkedList<>();
-                searchForSong(s, size, listIndex);
-
-                if(!listIndex.isEmpty()){
-                    return populateView(listIndex);
-                }
-                return false;
+            public boolean onQueryTextChange(String song) {
+                return searchSong(song);
             }
         });
 
@@ -92,11 +99,22 @@ public class SongsYouths extends AppCompatActivity {
 
     }
 
-    private void searchForSong(String s, int size, List<Integer> listIndex) {
-        s = s.toLowerCase();
+    private boolean searchSong(String song) {
+        int size = listSongs.size();
+        List<Integer> listIndex = new LinkedList<>();
+        searchForSong(song, size, listIndex);
+
+        if (!listIndex.isEmpty()) {
+            return populateView(listIndex);
+        }
+        return false;
+    }
+
+    private void searchForSong(String song, int size, List<Integer> listIndex) {
+        song = song.toLowerCase();
         for (int i = 0; i < size; i++) {
             String currentSongTitle = listSongs.get(i).getNameSongNoRom();
-            if (currentSongTitle.contains(s)) {
+            if (currentSongTitle.contains(song)) {
                 listIndex.add(i);
             }
         }
@@ -124,7 +142,8 @@ public class SongsYouths extends AppCompatActivity {
             //String songText = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TEXT));
             //String songCategory = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_CATEGORY));
 
-            listSongs.add(new com.example.alexandru.pdf.model.Song(index,songTitle,"","",songTitleNoRom));
+            Song song = new Song(index, songTitle, "", "", songTitleNoRom);
+            listSongs.add(song);
         }while (c.moveToNext());
 
     }
@@ -148,34 +167,6 @@ public class SongsYouths extends AppCompatActivity {
         });
 
         listView.setAdapter(songAdapter);
-    }
-
-    /*
-    public void createDummyData(){
-
-        listSongs = new LinkedList<>();
-
-        listSongs.add(new com.example.alexandru.pdf.model.Song(1,"Maretul har","stext1","category1"));
-        listSongs.add(new com.example.alexandru.pdf.model.Song(2,"Victoria in Isus","stext2","category1"));
-        listSongs.add(new com.example.alexandru.pdf.model.Song(3,"Tata noi vrem ca slava Ta","stext3","category1"));
-        listSongs.add(new com.example.alexandru.pdf.model.Song(5,"Nu exista cruce fara iesle","stext3","category1"));
-        listSongs.add(new com.example.alexandru.pdf.model.Song(6,"Victoria in Isus 2","stext5","category1"));
-        listSongs.add(new com.example.alexandru.pdf.model.Song(7,"O noua zi","stext6","category1"));
-    }
-    */
-
-    private void simpleTestForListView(ListView listView) {
-        // define the values
-        String[] values={"text1","text2","text3","text4","text5","text6","text7","text8","text9","text10"};
-
-        // make the adapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, values);
-
-        // set the adapter
-        listView.setAdapter(adapter);
-
-        // set the listener
-        listView.setOnItemClickListener(new TestOnClick(getApplicationContext(),listView));
     }
 
 
