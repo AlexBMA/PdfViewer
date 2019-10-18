@@ -171,9 +171,6 @@ public class SongsYouths extends AppCompatActivity {
             songAdapter.add(song);
         }
 
-        //List<Object> song = dataSnapshot.getValue(ArrayList.class);
-        //listSongs.add(song);
-        //Log.d("TAG", "Value is: " + song.toString());
     }
 
     public void createDataFromCursor(Cursor c){
@@ -196,7 +193,7 @@ public class SongsYouths extends AppCompatActivity {
     public void mediumTestForListView(final ListView listView){
         listSongs = new LinkedList<>();
         SongAdapter songAdapter = new SongAdapter(this,listSongs);
-
+        createDataFromFireBase(songAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -211,7 +208,7 @@ public class SongsYouths extends AppCompatActivity {
         });
 
         listView.setAdapter(songAdapter);
-        createDataFromFireBase(songAdapter);
+
     }
 
 
