@@ -44,15 +44,15 @@ public class SongActivity extends AppCompatActivity {
 
         boolean isNetwork = NetWorkUtils.isNetworkAvailable(getSystemService(Context.CONNECTIVITY_SERVICE));
 
-        //if(isNetwork){
+        if(isNetwork){
             // Read from the database
             myRef = FireBaseDatabaseUtils.getDatabaseConn();
             withNetWorkCase(idSong);
 
-        //}
-        //else {
-           // withNoNetWorkCase(idSong);
-        //}
+        }
+        else {
+            withNoNetWorkCase(idSong);
+        }
 
     }
 

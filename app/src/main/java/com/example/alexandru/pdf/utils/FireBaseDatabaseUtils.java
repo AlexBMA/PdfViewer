@@ -13,7 +13,6 @@ public class FireBaseDatabaseUtils {
         database = FirebaseDatabase.getInstance();
         database.setPersistenceEnabled(true);
         myRef = database.getReference(SONG);
-        myRef.keepSynced(true);
     }
 
     public static DatabaseReference getDatabaseConn(){

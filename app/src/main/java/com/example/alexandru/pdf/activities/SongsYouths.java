@@ -18,6 +18,7 @@ import com.example.alexandru.pdf.R;
 import com.example.alexandru.pdf.adapter.SongAdapter;
 import com.example.alexandru.pdf.constant.AppConstant;
 import com.example.alexandru.pdf.dbConstantPack.SongsAppTables;
+import com.example.alexandru.pdf.dbpack.MyDatabase;
 import com.example.alexandru.pdf.model.Song;
 import com.example.alexandru.pdf.utils.FireBaseDatabaseUtils;
 import com.example.alexandru.pdf.utils.NetWorkUtils;
@@ -38,7 +39,6 @@ public class SongsYouths extends AppCompatActivity {
     private DatabaseReference myRef;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,19 +49,17 @@ public class SongsYouths extends AppCompatActivity {
 
         boolean isNetwork = NetWorkUtils.isNetworkAvailable(getSystemService(Context.CONNECTIVITY_SERVICE));
 
-       // if(isNetwork){
+        if(isNetwork){
 
-            // Read from the database
-
+       // Read from the database
         myRef = FireBaseDatabaseUtils.getDatabaseConn();
 
-        //}else {
+        }else {
+            MyDatabase myDatabase = new MyDatabase(getApplicationContext());
+            Cursor cursor = myDatabase.getSongsNamesAndId();
 
-            //MyDatabase myDatabase = new MyDatabase(getApplicationContext());
-            //Cursor cursor = myDatabase.getSongsNamesAndId();
-
-            //createDataFromCursor(cursor);
-        //}
+            createDataFromCursor(cursor);
+        }
 
         populateTheListView(listView,isNetwork);
     }
