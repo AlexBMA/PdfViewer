@@ -13,11 +13,11 @@ import com.example.alexandru.pdf.constant.AppConstant;
 import com.example.alexandru.pdf.dbConstantPack.SongsAppTables;
 import com.example.alexandru.pdf.dbpack.MyDatabase;
 import com.example.alexandru.pdf.model.Song;
+import com.example.alexandru.pdf.utils.FireBaseDatabaseUtils;
 import com.example.alexandru.pdf.utils.NetWorkUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class SongActivity extends AppCompatActivity {
@@ -27,7 +27,6 @@ public class SongActivity extends AppCompatActivity {
     private TextView textViewSongTitle;
 
     public static final String SONG = "song";
-    private FirebaseDatabase database;
     private DatabaseReference myRef;
 
     @Override
@@ -45,14 +44,15 @@ public class SongActivity extends AppCompatActivity {
 
         boolean isNetwork = NetWorkUtils.isNetworkAvailable(getSystemService(Context.CONNECTIVITY_SERVICE));
 
-        if(isNetwork){
+        //if(isNetwork){
             // Read from the database
-            database = FirebaseDatabase.getInstance();
-            myRef = database.getReference(SONG);
+            myRef = FireBaseDatabaseUtils.getDatabaseConn();
             withNetWorkCase(idSong);
-        }else {
-            withNoNetWorkCase(idSong);
-        }
+
+        //}
+        //else {
+           // withNoNetWorkCase(idSong);
+        //}
 
     }
 

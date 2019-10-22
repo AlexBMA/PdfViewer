@@ -18,8 +18,8 @@ import com.example.alexandru.pdf.R;
 import com.example.alexandru.pdf.adapter.SongAdapter;
 import com.example.alexandru.pdf.constant.AppConstant;
 import com.example.alexandru.pdf.dbConstantPack.SongsAppTables;
-import com.example.alexandru.pdf.dbpack.MyDatabase;
 import com.example.alexandru.pdf.model.Song;
+import com.example.alexandru.pdf.utils.FireBaseDatabaseUtils;
 import com.example.alexandru.pdf.utils.NetWorkUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,8 +35,8 @@ public class SongsYouths extends AppCompatActivity {
     public static final String SONG = "song";
     private ListView listView;
     private List<Song> listSongs;
-    private FirebaseDatabase database;
     private DatabaseReference myRef;
+
 
 
     @Override
@@ -49,18 +49,19 @@ public class SongsYouths extends AppCompatActivity {
 
         boolean isNetwork = NetWorkUtils.isNetworkAvailable(getSystemService(Context.CONNECTIVITY_SERVICE));
 
-        if(isNetwork){
+       // if(isNetwork){
 
             // Read from the database
-            database = FirebaseDatabase.getInstance();
-            myRef = database.getReference(SONG);
 
-        }else {
-            MyDatabase myDatabase = new MyDatabase(getApplicationContext());
-            Cursor cursor = myDatabase.getSongsNamesAndId();
+        myRef = FireBaseDatabaseUtils.getDatabaseConn();
 
-            createDataFromCursor(cursor);
-        }
+        //}else {
+
+            //MyDatabase myDatabase = new MyDatabase(getApplicationContext());
+            //Cursor cursor = myDatabase.getSongsNamesAndId();
+
+            //createDataFromCursor(cursor);
+        //}
 
         populateTheListView(listView,isNetwork);
     }
@@ -193,7 +194,7 @@ public class SongsYouths extends AppCompatActivity {
 
 
     public void populateTheListView(final ListView listView, boolean isNetwork){
-        if (listView == null) listSongs = new LinkedList<>();
+        if (listSongs == null) listSongs = new LinkedList<>();
 
         SongAdapter songAdapter = new SongAdapter(this,listSongs);
 
