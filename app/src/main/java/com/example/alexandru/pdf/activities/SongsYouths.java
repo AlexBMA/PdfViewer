@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,14 +18,12 @@ import com.example.alexandru.pdf.adapter.SongAdapter;
 import com.example.alexandru.pdf.constant.AppConstant;
 import com.example.alexandru.pdf.dbConstantPack.SongsAppTables;
 import com.example.alexandru.pdf.dbpack.MyDatabase;
+import com.example.alexandru.pdf.listener.ValueEventListenerForSongsYouthActivity;
 import com.example.alexandru.pdf.model.Song;
 import com.example.alexandru.pdf.utils.FireBaseDatabaseUtils;
 import com.example.alexandru.pdf.utils.NetWorkUtils;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -148,31 +145,11 @@ public class SongsYouths extends AppCompatActivity {
     public void createDataFromFireBase(final SongAdapter songAdapter){
         listSongs = new LinkedList<>();
 
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                getDataFromFireBase(dataSnapshot,songAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Failed to read value
-                //Log.w("TAG", "Failed to read value.", databaseError.toException());
-            }
-        });
+        ValueEventListenerForSongsYouthActivity valueEventListenerForSongsYouthActivity = new ValueEventListenerForSongsYouthActivity(listSongs,songAdapter);
+        myRef.addValueEventListener(valueEventListenerForSongsYouthActivity);
     }
 
-    private void getDataFromFireBase(@NonNull DataSnapshot dataSnapshot,SongAdapter songAdapter) {
-        for(DataSnapshot ds: dataSnapshot.getChildren()){
-            Song song = new Song();
-            song.setId(ds.getValue(Song.class).getId());
-            song.setNameSong(ds.getValue(Song.class).getNameSong());
-            song.setNameSongNoRom(ds.getValue(Song.class).getNameSongNoRom());
-            listSongs.add(song);
-            songAdapter.add(song);
-        }
 
-    }
 
     public void createDataFromCursor(Cursor c){
         listSongs = new LinkedList<>();
@@ -181,8 +158,6 @@ public class SongsYouths extends AppCompatActivity {
             int index = c.getInt(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_ID));
             String songTitle = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE));
             String songTitleNoRom = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE_NO_ROM));
-            //String songText = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TEXT));
-            //String songCategory = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_CATEGORY));
 
             Song song = new Song(index, songTitle, "", "", songTitleNoRom);
             listSongs.add(song);
@@ -213,7 +188,6 @@ public class SongsYouths extends AppCompatActivity {
         Intent intent = new Intent(SongsYouths.this, SongActivity.class);
 
         Song temp = (Song) listView.getItemAtPosition(position);
-        //listItemModel.toString();
 
         intent.putExtra(AppConstant.ID_SONG,temp.getId());
         startActivity(intent);
