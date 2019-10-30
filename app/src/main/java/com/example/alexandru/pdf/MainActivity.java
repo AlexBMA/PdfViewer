@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.alexandru.pdf.activities.SongsYouths;
 import com.example.alexandru.pdf.dbpack.MyDatabase;
@@ -34,14 +35,23 @@ public class MainActivity extends AppCompatActivity {
         boolean isNetwork = NetWorkUtils.isNetworkAvailable(getSystemService(Context.CONNECTIVITY_SERVICE));
 
         ValueEventListenerForMainActivity listener;
-        if(isNetwork){
+        if (isNetwork) {
             myRef = FireBaseDatabaseUtils.getDatabaseConn();
 
             songs = new LinkedList<>();
             MyDatabase myDatabase = new MyDatabase(getApplicationContext());
 
-            listener = new ValueEventListenerForMainActivity(songs,myDatabase);
+            listener = new ValueEventListenerForMainActivity(songs, myDatabase);
             myRef.addValueEventListener(listener);
+        } else {
+
+            Context context = getApplicationContext();
+            CharSequence text = "Nu exista conexsiune la internet,\n cantarile nu sunt actualizate.";
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+
         }
 
 
