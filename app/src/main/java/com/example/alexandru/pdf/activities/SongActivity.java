@@ -1,6 +1,5 @@
 package com.example.alexandru.pdf.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -13,8 +12,6 @@ import com.example.alexandru.pdf.constant.AppConstant;
 import com.example.alexandru.pdf.dbConstantPack.SongsAppTables;
 import com.example.alexandru.pdf.dbpack.MyDatabase;
 import com.example.alexandru.pdf.model.Song;
-import com.example.alexandru.pdf.utils.FireBaseDatabaseUtils;
-import com.example.alexandru.pdf.utils.NetWorkUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,16 +38,7 @@ public class SongActivity extends AppCompatActivity {
 
         final int idSong = intent.getIntExtra(AppConstant.ID_SONG, -1);
 
-        boolean isNetwork = NetWorkUtils.isNetworkAvailable(getSystemService(Context.CONNECTIVITY_SERVICE));
-
-        if (isNetwork) {
-            // Read from the database
-            myRef = FireBaseDatabaseUtils.getDatabaseConn();
-            withNetWorkCase(idSong);
-
-        } else {
-            withNoNetWorkCase(idSong);
-        }
+        withNoNetWorkCase(idSong);
 
     }
 
@@ -94,11 +82,15 @@ public class SongActivity extends AppCompatActivity {
         DataSnapshot child = dataSnapshot.child(path);
 
         Song songFromFireBase = child.getValue(Song.class);
-        String textSong = songFromFireBase.getTextSong();
-        String nameSong = songFromFireBase.getNameSong();
-        int id = songFromFireBase.getId();
 
-        setTheView(id, nameSong, textSong);
+        if (songFromFireBase != null) {
+
+            String textSong = songFromFireBase.getTextSong();
+            String nameSong = songFromFireBase.getNameSong();
+            int id = songFromFireBase.getId();
+
+            setTheView(id, nameSong, textSong);
+        }
     }
 
 

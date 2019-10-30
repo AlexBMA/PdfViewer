@@ -1,6 +1,5 @@
 package com.example.alexandru.pdf.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -20,8 +19,6 @@ import com.example.alexandru.pdf.dbConstantPack.SongsAppTables;
 import com.example.alexandru.pdf.dbpack.MyDatabase;
 import com.example.alexandru.pdf.listener.ValueEventListenerForSongsYouthActivity;
 import com.example.alexandru.pdf.model.Song;
-import com.example.alexandru.pdf.utils.FireBaseDatabaseUtils;
-import com.example.alexandru.pdf.utils.NetWorkUtils;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -44,21 +41,11 @@ public class SongsYouths extends AppCompatActivity {
         // get the list view
         listView = findViewById(R.id.list_view_songs_youths);
 
-        boolean isNetwork = NetWorkUtils.isNetworkAvailable(getSystemService(Context.CONNECTIVITY_SERVICE));
+        MyDatabase myDatabase = new MyDatabase(getApplicationContext());
+        Cursor cursor = myDatabase.getSongsNamesAndId();
 
-        if(isNetwork){
-
-       // Read from the database
-        myRef = FireBaseDatabaseUtils.getDatabaseConn();
-
-        }else {
-            MyDatabase myDatabase = new MyDatabase(getApplicationContext());
-            Cursor cursor = myDatabase.getSongsNamesAndId();
-
-            createDataFromCursor(cursor);
-        }
-
-        populateTheListView(listView,isNetwork);
+        createDataFromCursor(cursor);
+        populateTheListView(listView,false);
     }
 
 
