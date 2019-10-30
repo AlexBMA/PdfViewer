@@ -30,7 +30,7 @@ public class ValueEventListenerForSongsYouthActivity implements ValueEventListen
     }
 
     private void getDataFromFireBase(@NonNull DataSnapshot dataSnapshot, SongAdapter songAdapter) {
-        for(DataSnapshot ds: dataSnapshot.getChildren()){
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
             Song songFromFireBase = ds.getValue(Song.class);
             listSongs.add(songFromFireBase);
             songAdapter.add(songFromFireBase);

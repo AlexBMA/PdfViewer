@@ -2,6 +2,7 @@ package com.example.alexandru.pdf.listener;
 
 import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.alexandru.pdf.dbConstantPack.SongsAppTables;
 import com.example.alexandru.pdf.dbpack.MyDatabase;
@@ -38,8 +39,11 @@ public class ValueEventListenerForMainActivity implements ValueEventListener {
         Cursor lastSongInDB = myDatabase.getSong((int) childrenCount);
         int idColumnIndex = lastSongInDB.getColumnIndex(SongsAppTables.SongsTable.COLUMN_ID);
         int idLastSongLocalDatabase = lastSongInDB.getInt(idColumnIndex);
+        int idColumnSongName = lastSongInDB.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE);
+        String name = lastSongInDB.getString(idColumnSongName);
 
         if (idLastSongFireBase != idLastSongLocalDatabase) {
+            Log.e("will be updated","will be update "+lastSongFromFireBase.getNameSong()+" %% "+name);
             updateLocalDatabaseWithFireBaseData(dataSnapshot);
         }
 
