@@ -66,16 +66,23 @@ public class SongsYouths extends AppCompatActivity {
 
         listSongs = new LinkedList<>();
 
-        do{
-            int index = allSongs.getInt(allSongs.getColumnIndex(SongsAppTables.SongsTable.COLUMN_ID));
-            String songTitle = allSongs.getString(allSongs.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE));
-            String songTitleNoRom = allSongs.getString(allSongs.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE_NO_ROM));
-            String songText = allSongs.getString(allSongs.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TEXT));
-            String songCategory = allSongs.getString(allSongs.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_CATEGORY));
+        int idColumnIndex = allSongs.getColumnIndex(SongsAppTables.SongsTable.COLUMN_ID);
+        int songTitleColumnIndex = allSongs.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE);
+        int songTitleNoRomColumnIndex = allSongs.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE_NO_ROM);
+        int songTextColumnIndex = allSongs.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TEXT);
+        int songCategoryColumnIndex = allSongs.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_CATEGORY);
+
+        do {
+
+            int index = allSongs.getInt(idColumnIndex);
+            String songTitle = allSongs.getString(songTitleColumnIndex);
+            String songTitleNoRom = allSongs.getString(songTitleNoRomColumnIndex);
+            String songText = allSongs.getString(songTextColumnIndex);
+            String songCategory = allSongs.getString(songCategoryColumnIndex);
 
             Song song = new Song(index, songTitle, songText, songCategory, songTitleNoRom);
             listSongs.add(song);
-        }while (allSongs.moveToNext());
+        } while (allSongs.moveToNext());
 
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -151,17 +158,21 @@ public class SongsYouths extends AppCompatActivity {
 
 
 
-    public void createDataFromCursor(Cursor c){
+    public void createDataFromCursor(Cursor songCursor){
         listSongs = new LinkedList<>();
 
-        do{
-            int index = c.getInt(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_ID));
-            String songTitle = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE));
-            String songTitleNoRom = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE_NO_ROM));
+        int idColumnIndex = songCursor.getColumnIndex(SongsAppTables.SongsTable.COLUMN_ID);
+        int songTitleColumnIndex = songCursor.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE);
+        int songTitleNoRomColumnIndex = songCursor.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE_NO_ROM);
+
+        do {
+            int index = songCursor.getInt(idColumnIndex);
+            String songTitle = songCursor.getString(songTitleColumnIndex);
+            String songTitleNoRom = songCursor.getString(songTitleNoRomColumnIndex);
 
             Song song = new Song(index, songTitle, "", "", songTitleNoRom);
             listSongs.add(song);
-        }while (c.moveToNext());
+        } while (songCursor.moveToNext());
 
     }
 
@@ -169,7 +180,7 @@ public class SongsYouths extends AppCompatActivity {
     public void populateTheListView(final ListView listView, boolean isNetwork){
         if (listSongs == null) listSongs = new LinkedList<>();
 
-        SongAdapter songAdapter = new SongAdapter(this,listSongs);
+        SongAdapter songAdapter = new SongAdapter(this, listSongs);
 
         if(isNetwork) createDataFromFireBase(songAdapter);
 

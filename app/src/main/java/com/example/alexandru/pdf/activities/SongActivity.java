@@ -26,7 +26,6 @@ public class SongActivity extends AppCompatActivity {
     private TextView textViewSongText;
     private TextView textViewSongTitle;
 
-    public static final String SONG = "song";
     private DatabaseReference myRef;
 
     @Override
@@ -44,13 +43,12 @@ public class SongActivity extends AppCompatActivity {
 
         boolean isNetwork = NetWorkUtils.isNetworkAvailable(getSystemService(Context.CONNECTIVITY_SERVICE));
 
-        if(isNetwork){
+        if (isNetwork) {
             // Read from the database
             myRef = FireBaseDatabaseUtils.getDatabaseConn();
             withNetWorkCase(idSong);
 
-        }
-        else {
+        } else {
             withNoNetWorkCase(idSong);
         }
 
@@ -58,11 +56,15 @@ public class SongActivity extends AppCompatActivity {
 
     private void withNoNetWorkCase(int idSong) {
         MyDatabase myDatabase = new MyDatabase(getApplicationContext());
-        Cursor c = myDatabase.getSong(idSong);
+        Cursor cursorSong = myDatabase.getSong(idSong);
 
-        int id = c.getInt(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_ID));
-        String songTitle = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE));
-        String songText = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TEXT));
+        int columnIndexId = cursorSong.getColumnIndex(SongsAppTables.SongsTable.COLUMN_ID);
+        int columnIndexTitle = cursorSong.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE);
+        int columnIndexSongText = cursorSong.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TEXT);
+
+        int id = cursorSong.getInt(columnIndexId);
+        String songTitle = cursorSong.getString(columnIndexTitle);
+        String songText = cursorSong.getString(columnIndexSongText);
 
         setTheView(id, songTitle, songText);
     }
@@ -91,9 +93,10 @@ public class SongActivity extends AppCompatActivity {
         String path = String.valueOf(idSong - 1);
         DataSnapshot child = dataSnapshot.child(path);
 
-        String textSong = child.getValue(Song.class).getTextSong();
-        String nameSong = child.getValue(Song.class).getNameSong();
-        int id = child.getValue(Song.class).getId();
+        Song songFromFireBase = child.getValue(Song.class);
+        String textSong = songFromFireBase.getTextSong();
+        String nameSong = songFromFireBase.getNameSong();
+        int id = songFromFireBase.getId();
 
         setTheView(id, nameSong, textSong);
     }

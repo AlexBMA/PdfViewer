@@ -21,10 +21,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private DatabaseReference myRef;
-
-    //ImageView imageView;
     private Button songButton;
-
     private List<Song> songs;
 
     @Override

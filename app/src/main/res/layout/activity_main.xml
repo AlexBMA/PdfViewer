@@ -22,6 +22,8 @@
 
 
         <Button
+            android:background="@color/colorPrimary"
+            android:textColor="@color/common_google_signin_btn_text_dark_pressed"
             android:id="@+id/button_song_tineri"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
