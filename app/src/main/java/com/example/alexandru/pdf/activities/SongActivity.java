@@ -1,6 +1,5 @@
 package com.example.alexandru.pdf.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -13,11 +12,9 @@ import com.example.alexandru.pdf.constant.AppConstant;
 import com.example.alexandru.pdf.dbConstantPack.SongsAppTables;
 import com.example.alexandru.pdf.dbpack.MyDatabase;
 import com.example.alexandru.pdf.model.Song;
-import com.example.alexandru.pdf.utils.NetWorkUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class SongActivity extends AppCompatActivity {
@@ -26,8 +23,6 @@ public class SongActivity extends AppCompatActivity {
     private TextView textViewSongText;
     private TextView textViewSongTitle;
 
-    public static final String SONG = "song";
-    private FirebaseDatabase database;
     private DatabaseReference myRef;
 
     @Override
@@ -43,26 +38,21 @@ public class SongActivity extends AppCompatActivity {
 
         final int idSong = intent.getIntExtra(AppConstant.ID_SONG, -1);
 
-        boolean isNetwork = NetWorkUtils.isNetworkAvailable(getSystemService(Context.CONNECTIVITY_SERVICE));
-
-        if(isNetwork){
-            // Read from the database
-            database = FirebaseDatabase.getInstance();
-            myRef = database.getReference(SONG);
-            withNetWorkCase(idSong);
-        }else {
-            withNoNetWorkCase(idSong);
-        }
+        withNoNetWorkCase(idSong);
 
     }
 
     private void withNoNetWorkCase(int idSong) {
         MyDatabase myDatabase = new MyDatabase(getApplicationContext());
-        Cursor c = myDatabase.getSong(idSong);
+        Cursor cursorSong = myDatabase.getSong(idSong);
 
-        int id = c.getInt(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_ID));
-        String songTitle = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE));
-        String songText = c.getString(c.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TEXT));
+        int columnIndexId = cursorSong.getColumnIndex(SongsAppTables.SongsTable.COLUMN_ID);
+        int columnIndexTitle = cursorSong.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TITLE);
+        int columnIndexSongText = cursorSong.getColumnIndex(SongsAppTables.SongsTable.COLUMN_SONG_TEXT);
+
+        int id = cursorSong.getInt(columnIndexId);
+        String songTitle = cursorSong.getString(columnIndexTitle);
+        String songText = cursorSong.getString(columnIndexSongText);
 
         setTheView(id, songTitle, songText);
     }
@@ -91,11 +81,16 @@ public class SongActivity extends AppCompatActivity {
         String path = String.valueOf(idSong - 1);
         DataSnapshot child = dataSnapshot.child(path);
 
-        String textSong = child.getValue(Song.class).getTextSong();
-        String nameSong = child.getValue(Song.class).getNameSong();
-        int id = child.getValue(Song.class).getId();
+        Song songFromFireBase = child.getValue(Song.class);
 
-        setTheView(id, nameSong, textSong);
+        if (songFromFireBase != null) {
+
+            String textSong = songFromFireBase.getTextSong();
+            String nameSong = songFromFireBase.getNameSong();
+            int id = songFromFireBase.getId();
+
+            setTheView(id, nameSong, textSong);
+        }
     }
 
 
